@@ -44,15 +44,25 @@ export function Appointment() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Appointment request: ", { name, surname, phone, date, time });
-    const options = {
-      method: "POST",
-      body: JSON.stringify({ name, surname, phone, date, time }),
-      "content-type": "application/json",
+    const formData = {
+      name: name,
+      surname: surname,
+      phone: phone,
+      date: date,
+      time: time,
     };
-    const res = await fetch("http://localhost:3001/api/obtenerTurno", options);
+
+    const res = await fetch("http://localhost:3001/api/turno/new", {
+      method: "POST",
+      body: JSON.stringify({ formData }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(res);
   };
 
   const scrollToSection = () => {
@@ -109,7 +119,7 @@ export function Appointment() {
           <div className="container px-4 md:px-6 grid gap-6 lg:grid-cols-2 lg:gap-12">
             <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Dr. Jane Doe, DMD
+                Dr. Juan Pascal
               </h1>
               <p className="text-lg">
                 Experienced Dentist Specializing in Cosmetic Dentistry
