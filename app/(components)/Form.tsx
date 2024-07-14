@@ -28,7 +28,7 @@ const Form = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ formData: formData }),
     });
 
     if (!res.ok) {
