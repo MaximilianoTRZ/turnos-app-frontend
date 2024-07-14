@@ -8,10 +8,21 @@ interface FormData {
 
 const Form = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    surname: "",
+    dni: "",
+    email: "",
+    phone: "",
+    date: "",
+    time: "",
+    reason: "",
+  });
   const [error, setError] = useState<string>("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { value, name } = e.target;
 
     setFormData((prevState) => ({
@@ -39,8 +50,9 @@ const Form = () => {
       router.push("/");
     }
   };
+
   return (
-    <div className="flex w-full justify-center items-center min-h-screen bg-gray-100 ">
+    <div className="flex w-full justify-center items-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
         method="POST"
@@ -49,9 +61,12 @@ const Form = () => {
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">
           Obtener un nuevo turno
         </h1>
+        <h2 className="text-xl font-bold mt-8 mb-4 text-gray-700">
+          Detalles del paciente
+        </h2>
         <div className="flex flex-col gap-4">
-          <div className="flex gap-4">
-            <div className="flex flex-col w-1/2">
+          <div className="flex justify-between">
+            <div className="flex flex-col  w-1/2">
               <label htmlFor="name" className="text-gray-600">
                 Nombre
               </label>
@@ -63,11 +78,11 @@ const Form = () => {
                 required
                 placeholder="Ingresa tu nombre"
                 value={formData.name}
-                className="mt-2 p-2 border border-gray-300 rounded-md"
+                className="mt-2 p-2  border border-gray-300 rounded-md"
               />
             </div>
-            <div className="flex flex-col w-1/2">
-              <label htmlFor="surname" className="text-gray-600">
+            <div className="flex flex-col  w-1/2">
+              <label htmlFor="surname" className="text-gray-600 ml-2">
                 Apellido
               </label>
               <input
@@ -78,7 +93,7 @@ const Form = () => {
                 required
                 placeholder="Ingresa tu apellido"
                 value={formData.surname}
-                className="mt-2 p-2 border border-gray-300 rounded-md"
+                className="mt-2 ml-2 p-2 border border-gray-300 rounded-md"
               />
             </div>
           </div>
@@ -127,6 +142,11 @@ const Form = () => {
               className="mt-2 p-2 border border-gray-300 rounded-md"
             />
           </div>
+
+          <h2 className="text-xl font-bold mt-8 mb-4 text-gray-700">
+            Detalles del turno
+          </h2>
+
           <div className="flex gap-4">
             <div className="flex flex-col w-1/2">
               <label htmlFor="date" className="text-gray-600">
@@ -161,13 +181,12 @@ const Form = () => {
             <label htmlFor="reason" className="text-gray-600">
               Motivo
             </label>
-            <input
+            <textarea
               id="reason"
-              type="text"
               name="reason"
               onChange={handleChange}
               required
-              placeholder="Ingresa el motivo de tu consulta"
+              placeholder="Ingresa el motivo de tu turno"
               value={formData.reason}
               className="mt-2 p-2 border border-gray-300 rounded-md"
             />
@@ -183,4 +202,5 @@ const Form = () => {
     </div>
   );
 };
+
 export default Form;
