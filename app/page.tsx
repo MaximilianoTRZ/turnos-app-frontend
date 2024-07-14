@@ -1,10 +1,9 @@
-import Image from "next/image";
-import { Appointment } from "@/components/component/appointment";
+import Form from "./(components)/Form";
 
 export default function Home() {
   return (
-    <div>
-      <Appointment />
+    <div className="mb-4">
+      <Form />
     </div>
   );
 }
