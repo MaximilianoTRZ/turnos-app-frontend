@@ -27,7 +27,7 @@ const formDataSchema = z.object({
     .nonempty({ message: "Teléfono es requerido" }),
   date: z.string().nonempty({ message: "Fecha es requerida" }),
   time: z.string().nonempty({ message: "Hora es requerida" }),
-  reason: z
+  description: z
     .string()
     .min(5, { message: "Motivo debe tener al menos 5 caracteres" })
     .nonempty({ message: "Motivo es requerido" }),
@@ -47,7 +47,7 @@ const Form = () => {
     phone: "",
     date: "",
     time: "",
-    reason: "",
+    description: "",
   });
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -218,16 +218,16 @@ const Form = () => {
             </div>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="reason" className="text-gray-600">
+            <label htmlFor="description" className="text-gray-600">
               Motivo
             </label>
             <textarea
-              id="reason"
-              name="reason"
+              id="description"
+              name="description"
               onChange={handleChange}
               required
               placeholder="Ingresa el motivo de tu turno"
-              value={formData.reason}
+              value={formData.description}
               className="mt-2 p-2 border border-gray-300 rounded-md"
             />
           </div>
