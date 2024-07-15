@@ -1,6 +1,37 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { z } from "zod";
+
+// Define the schema using Zod
+const formDataSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Nombre debe tener al menos 2 caracteres" })
+    .nonempty({ message: "Nombre es requerido" }),
+  surname: z
+    .string()
+    .min(2, { message: "Apellido debe tener al menos 2 caracteres" })
+    .nonempty({ message: "Apellido es requerido" }),
+  dni: z
+    .string()
+    .length(8, { message: "DNI debe tener 8 caracteres" })
+    .nonempty({ message: "DNI es requerido" }),
+  email: z
+    .string()
+    .email({ message: "Email inválido" })
+    .nonempty({ message: "Email es requerido" }),
+  phone: z
+    .string()
+    .min(10, { message: "Teléfono debe tener al menos 10 caracteres" })
+    .nonempty({ message: "Teléfono es requerido" }),
+  date: z.string().nonempty({ message: "Fecha es requerida" }),
+  time: z.string().nonempty({ message: "Hora es requerida" }),
+  reason: z
+    .string()
+    .min(5, { message: "Motivo debe tener al menos 5 caracteres" })
+    .nonempty({ message: "Motivo es requerido" }),
+});
 
 interface FormData {
   [key: string]: string;
@@ -18,7 +49,7 @@ const Form = () => {
     time: "",
     reason: "",
   });
-  const [error, setError] = useState<string>("");
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -33,18 +64,27 @@ const Form = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    setErrors([]);
+
+    // Validate form data
+    const validationResult = formDataSchema.safeParse(formData);
+
+    if (!validationResult.success) {
+      setErrors(validationResult.error.errors.map((err) => err.message));
+      return;
+    }
+
     const res = await fetch("http://localhost:3001/api/turno/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ formData: formData }),
+      body: JSON.stringify({ formData: validationResult.data }),
     });
 
     if (!res.ok) {
       const data = await res.json();
-      setError(data.message);
+      setErrors([data.message]);
     } else {
       router.refresh();
       router.push("/");
@@ -66,7 +106,7 @@ const Form = () => {
         </h2>
         <div className="flex flex-col gap-4">
           <div className="flex justify-between">
-            <div className="flex flex-col  w-1/2">
+            <div className="flex flex-col w-1/2">
               <label htmlFor="name" className="text-gray-600">
                 Nombre
               </label>
@@ -78,10 +118,10 @@ const Form = () => {
                 required
                 placeholder="Ingresa tu nombre"
                 value={formData.name}
-                className="mt-2 p-2  border border-gray-300 rounded-md"
+                className="mt-2 p-2 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="flex flex-col  w-1/2">
+            <div className="flex flex-col w-1/2">
               <label htmlFor="surname" className="text-gray-600 ml-2">
                 Apellido
               </label>
@@ -103,7 +143,7 @@ const Form = () => {
             </label>
             <input
               id="dni"
-              type="text"
+              type="number"
               name="dni"
               onChange={handleChange}
               required
@@ -196,7 +236,13 @@ const Form = () => {
             value="Obten tu turno"
             className="mt-6 bg-blue-500 hover:bg-blue-400 text-white py-2 rounded-md transition-colors duration-200"
           />
-          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {errors.length > 0 && (
+            <div className="text-red-500 mt-4">
+              {errors.map((error, index) => (
+                <p key={index}>{error}</p>
+              ))}
+            </div>
+          )}
         </div>
       </form>
     </div>
