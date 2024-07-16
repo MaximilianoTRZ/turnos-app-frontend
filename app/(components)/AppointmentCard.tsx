@@ -6,7 +6,7 @@ interface Appointment {
     _id: string;
     name: string;
     surname: string;
-    dni: string;
+    dni: number;
     email: string;
     phone: string;
   };
@@ -14,12 +14,12 @@ interface Appointment {
   time: string;
   description: string;
   _id: string;
+  status: string;
 }
 
 interface AppointmentCardProps {
   appointment: Appointment;
 }
-
 const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md w-full h-full max-w-full max-h-full">
@@ -47,13 +47,17 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
           <strong>Teléfono:</strong> {appointment.patient.phone}
         </div>
         <div>
-          <strong>Fecha:</strong> {appointment.date}
+          <strong>Fecha:</strong> {appointment.date.substring(0, 10)}
         </div>
         <div>
-          <strong>Hora:</strong> {appointment.time}
+          <strong>Hora:</strong> {appointment.date.substring(11, 16)}
         </div>
         <div>
           <strong>Motivo:</strong> {appointment.description}
+        </div>
+        <div>
+          <strong>Estado: </strong>
+          {appointment.status}
         </div>
       </div>
     </div>

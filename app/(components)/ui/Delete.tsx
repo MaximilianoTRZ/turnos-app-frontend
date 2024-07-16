@@ -5,21 +5,28 @@ import { useRouter } from "next/navigation";
 const Delete = ({ _id }: { _id: string }) => {
   const router = useRouter();
 
-  const deleteTurn = async () => {
+  const softDeleteTurn = async () => {
     const res = await fetch(
       `http://localhost:3001/api/entity/appointment/${_id}`,
       {
-        method: "DELETE",
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Appointment: {
+            status: "CANCELLED",
+          },
+        }),
       }
     );
     if (res.ok) {
       router.refresh();
-      router.push("/");
     }
   };
 
   return (
-    <button onClick={deleteTurn} className="btn btn-danger">
+    <button onClick={softDeleteTurn} className="btn btn-danger">
       <Image src="/delete.svg" alt="X" width={20} height={20} />
     </button>
   );

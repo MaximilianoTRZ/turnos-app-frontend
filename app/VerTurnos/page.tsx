@@ -8,7 +8,7 @@ interface Appointment {
     _id: string;
     name: string;
     surname: string;
-    dni: string;
+    dni: number;
     email: string;
     phone: string;
   };
@@ -16,6 +16,7 @@ interface Appointment {
   time: string;
   description: string;
   _id: string;
+  status: string;
 }
 
 const App = () => {

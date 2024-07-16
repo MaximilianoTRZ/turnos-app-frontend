@@ -15,8 +15,8 @@ const formDataSchema = z.object({
     .nonempty({ message: "Apellido es requerido" }),
   dni: z
     .string()
-    .length(8, { message: "DNI debe tener 8 caracteres" })
-    .nonempty({ message: "DNI es requerido" }),
+    .nonempty({ message: "DNI es requerido" })
+    .length(8, { message: "DNI debe tener 8 caracteres" }),
   email: z
     .string()
     .email({ message: "Email inválido" })
@@ -34,7 +34,14 @@ const formDataSchema = z.object({
 });
 
 interface FormData {
-  [key: string]: string;
+  name: string;
+  surname: string;
+  dni: string;
+  email: string;
+  phone: string;
+  date: string;
+  time: string;
+  description: string;
 }
 
 const Form = () => {
@@ -74,12 +81,29 @@ const Form = () => {
       return;
     }
 
+    // Split formData into patientDetails and appointmentDetails
+    const patient = {
+      name: validationResult.data.name,
+      surname: validationResult.data.surname,
+      dni: validationResult.data.dni,
+      email: validationResult.data.email,
+      phone: validationResult.data.phone,
+    };
+
+    const appointment = {
+      date: `${validationResult.data.date}T${validationResult.data.time}:00Z`,
+      description: validationResult.data.description,
+    };
+
+    console.log("patientDetails", JSON.stringify(patient));
+    console.log("appointmentDetails", JSON.stringify(appointment));
     const res = await fetch("http://localhost:3001/api/turno/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ formData: validationResult.data }),
+
+      body: JSON.stringify({ patient, appointment }),
     });
 
     if (!res.ok) {
@@ -173,7 +197,7 @@ const Form = () => {
             </label>
             <input
               id="phone"
-              type="tel"
+              type="number"
               name="phone"
               onChange={handleChange}
               required
