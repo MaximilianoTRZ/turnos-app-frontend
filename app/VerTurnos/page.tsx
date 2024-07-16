@@ -4,15 +4,17 @@ import AppointmentCard from "@/app/(components)/AppointmentCard";
 import Link from "next/link";
 
 interface Appointment {
-  name: string;
-  surname: string;
-  dni: string;
-  email: string;
-  phone: string;
+  _id: string;
+  patient: {
+    name: string;
+    surname: string;
+    dni: string;
+    email: string;
+    phone: string;
+  };
   date: string;
   time: string;
   description: string;
-  _id: string;
 }
 
 const App = () => {
@@ -24,7 +26,7 @@ const App = () => {
     const fetchAppointments = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/entity/appointment"
+          "http://localhost:3001/api/turno/consultar"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch appointments data");
@@ -42,21 +44,37 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center justify-center items-center text-center items-center min-h-screen">
+        <div className="flex bg-cyan-100 border-cyan-600 border-2 rounded-lg shadow-xl justify-center items-center min-w-40 min-h-40 ">
+          <h2 className="text-xl font-bold text-gray-700">Loading...</h2>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="flex justify-center justify-center items-center text-center items-center min-h-screen">
+        <div className="flex bg-red-100 border-red-600 border-2 rounded-lg shadow-xl justify-center items-center min-w-40 min-h-40 ">
+          <h2 className="text-xl font-bold text-red-600">Error</h2>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-wrap justify-center items-center min-h-screen bg-gray-100 gap-4">
-      <Link href="/">
-        <div className="text-blue-500 hover:underline">Volver al inicio</div>
-      </Link>
-      {appointments.map((appointment) => (
-        <AppointmentCard key={appointment._id} appointment={appointment} />
-      ))}
+    <div className="flex flex-col justify-center min-h-screen items-center gap-4">
+      <button className="m-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+        <Link href="/">
+          <div className="text-slate-200 hover:underline">Volver al inicio</div>
+        </Link>
+      </button>
+      <div className="flex flex-row justify-center items-center gap-4 w-full h-full max-w-full max-h-full p-5">
+        {appointments.map((appointment) => (
+          <AppointmentCard key={appointment._id} appointment={appointment} />
+        ))}
+      </div>
     </div>
   );
 };

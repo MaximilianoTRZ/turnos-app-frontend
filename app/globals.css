@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-main-gradient {
+  @apply bg-gradient-to-b to-indigo-300 from-slate-300;
+}

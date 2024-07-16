@@ -92,11 +92,11 @@ const Form = () => {
   };
 
   return (
-    <div className="flex w-full justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex w-full justify-center items-center min-h-screen">
       <form
         onSubmit={handleSubmit}
         method="POST"
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
+        className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md"
       >
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">
           Obtener un nuevo turno
