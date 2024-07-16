@@ -10,7 +10,7 @@ interface Appointment {
   date: string;
   time: string;
   description: string;
-  id: string;
+  _id: string;
 }
 
 interface AppointmentCardProps {
@@ -24,7 +24,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
         <h2 className="text-xl font-bold text-gray-700 mb-2">
           Detalles del turno
         </h2>
-        <Delete id={appointment.id} />
+        <Delete id={appointment._id} />
       </div>
       <div className="flex flex-col gap-2">
         <div>

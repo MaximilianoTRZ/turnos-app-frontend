@@ -12,7 +12,7 @@ interface Appointment {
   date: string;
   time: string;
   description: string;
-  id: string;
+  _id: string;
 }
 
 const App = () => {
@@ -55,7 +55,7 @@ const App = () => {
         <div className="text-blue-500 hover:underline">Volver al inicio</div>
       </Link>
       {appointments.map((appointment) => (
-        <AppointmentCard key={appointment.id} appointment={appointment} />
+        <AppointmentCard key={appointment._id} appointment={appointment} />
       ))}
     </div>
   );
