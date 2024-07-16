@@ -2,8 +2,8 @@ import React from "react";
 import Delete from "./ui/Delete";
 
 interface Appointment {
-  _id: string;
   patient: {
+    _id: string;
     name: string;
     surname: string;
     dni: string;
@@ -13,6 +13,7 @@ interface Appointment {
   date: string;
   time: string;
   description: string;
+  _id: string;
 }
 
 interface AppointmentCardProps {
@@ -26,7 +27,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
         <h2 className="text-xl font-bold text-gray-700 mb-2">
           Detalles del turno
         </h2>
-        <Delete id={appointment._id} />
+        {<>{console.log(appointment)}</>}
+        <Delete _id={appointment._id} />
       </div>
       <div className="flex flex-col gap-2">
         <div>

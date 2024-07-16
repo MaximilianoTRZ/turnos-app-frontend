@@ -2,18 +2,19 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const Delete = ({ id }: { id: string }) => {
+const Delete = ({ _id }: { _id: string }) => {
   const router = useRouter();
 
   const deleteTurn = async () => {
     const res = await fetch(
-      `http://localhost:3001/api/entity/appointment/${id}`,
+      `http://localhost:3001/api/entity/appointment/${_id}`,
       {
         method: "DELETE",
       }
     );
     if (res.ok) {
       router.refresh();
+      router.push("/");
     }
   };
 

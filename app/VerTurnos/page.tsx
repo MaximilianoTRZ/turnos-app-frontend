@@ -4,8 +4,8 @@ import AppointmentCard from "@/app/(components)/AppointmentCard";
 import Link from "next/link";
 
 interface Appointment {
-  _id: string;
   patient: {
+    _id: string;
     name: string;
     surname: string;
     dni: string;
@@ -15,6 +15,7 @@ interface Appointment {
   date: string;
   time: string;
   description: string;
+  _id: string;
 }
 
 const App = () => {
