@@ -113,6 +113,7 @@ const Form: React.FC<FormProps> = ({ onFormSubmit }) => {
       const data = await res.json();
       setErrors([data.message]);
     } else {
+      setFormData(initialFormData);
       onFormSubmit();
       router.push("/");
     }

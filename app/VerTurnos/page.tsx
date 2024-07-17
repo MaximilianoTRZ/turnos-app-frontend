@@ -50,7 +50,7 @@ const App = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center justify-center items-center text-center items-center min-h-screen">
+      <div className="flex justify-center justify-center items-center text-center items-center min-h-screen ">
         <div className="flex bg-cyan-100 border-cyan-600 border-2 rounded-lg shadow-xl justify-center items-center min-w-40 min-h-40 ">
           <h2 className="text-xl font-bold text-gray-700">Loading...</h2>
         </div>
