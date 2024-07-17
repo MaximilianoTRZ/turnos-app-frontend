@@ -24,26 +24,29 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3001/api/turno/consultar"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch appointments data");
-        }
-        const data: Appointment[] = await response.json();
-        setAppointments(data);
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+  const fetchAppointments = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3001/api/turno/consultar");
+      if (!response.ok) {
+        throw new Error("Failed to fetch appointments data");
       }
-    };
+      const data: Appointment[] = await response.json();
+      setAppointments(data);
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchAppointments();
   }, []);
+
+  const handleDelete = () => {
+    fetchAppointments(); // Refresh the appointment list
+  };
 
   if (loading) {
     return (
@@ -74,7 +77,11 @@ const App = () => {
       </button>
       <div className="flex flex-row justify-center items-center gap-4 w-full h-full max-w-full max-h-full p-5">
         {appointments.map((appointment) => (
-          <AppointmentCard key={appointment._id} appointment={appointment} />
+          <AppointmentCard
+            key={appointment._id}
+            appointment={appointment}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
     </div>

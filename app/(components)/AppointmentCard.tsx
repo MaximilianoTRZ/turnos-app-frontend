@@ -19,16 +19,19 @@ interface Appointment {
 
 interface AppointmentCardProps {
   appointment: Appointment;
+  onDelete: () => void;
 }
-const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
+const AppointmentCard: React.FC<AppointmentCardProps> = ({
+  appointment,
+  onDelete,
+}) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md w-full h-full max-w-full max-h-full">
       <div className="flex justify-between">
         <h2 className="text-xl font-bold text-gray-700 mb-2">
           Detalles del turno
         </h2>
-        {<>{console.log(appointment)}</>}
-        <Delete _id={appointment._id} />
+        <Delete _id={appointment._id} onDelete={onDelete} />
       </div>
       <div className="flex flex-col gap-2">
         <div>

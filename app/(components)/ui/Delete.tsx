@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const Delete = ({ _id }: { _id: string }) => {
+const Delete = ({ _id, onDelete }: { _id: string; onDelete: () => void }) => {
   const router = useRouter();
 
   const softDeleteTurn = async () => {
@@ -21,6 +21,7 @@ const Delete = ({ _id }: { _id: string }) => {
       }
     );
     if (res.ok) {
+      onDelete(); // Call the passed callback function
       router.refresh();
     }
   };

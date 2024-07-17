@@ -44,9 +44,13 @@ interface FormData {
   description: string;
 }
 
-const Form = () => {
+interface FormProps {
+  onFormSubmit: () => void; // Add the onFormSubmit prop
+}
+
+const Form: React.FC<FormProps> = ({ onFormSubmit }) => {
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
+  const initialFormData = {
     name: "",
     surname: "",
     dni: "",
@@ -55,7 +59,9 @@ const Form = () => {
     date: "",
     time: "",
     description: "",
-  });
+  };
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
   const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (
@@ -95,14 +101,11 @@ const Form = () => {
       description: validationResult.data.description,
     };
 
-    console.log("patientDetails", JSON.stringify(patient));
-    console.log("appointmentDetails", JSON.stringify(appointment));
     const res = await fetch("http://localhost:3001/api/turno/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({ patient, appointment }),
     });
 
@@ -110,7 +113,7 @@ const Form = () => {
       const data = await res.json();
       setErrors([data.message]);
     } else {
-      router.refresh();
+      onFormSubmit();
       router.push("/");
     }
   };
