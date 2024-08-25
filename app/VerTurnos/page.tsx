@@ -69,22 +69,20 @@ const App = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center min-h-screen items-center gap-4">
-      <button className="m-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-        <Link href="/">
-          <div className="text-slate-200 hover:underline">Volver al inicio</div>
-        </Link>
-      </button>
-      <div className="flex flex-row justify-center items-center gap-4 w-full h-full max-w-full max-h-full p-5">
-        {appointments.map((appointment) => (
-          <AppointmentCard
-            key={appointment._id}
-            appointment={appointment}
-            onDelete={handleDelete}
-          />
-        ))}
+    <section>
+      <div className="flex flex-col justify-center min-h-screen items-center gap-4">
+        <button className="m-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"></button>
+        <div className="flex flex-row justify-center items-center gap-4 w-full h-full max-w-full max-h-full p-5">
+          {appointments.map((appointment) => (
+            <AppointmentCard
+              key={appointment._id}
+              appointment={appointment}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

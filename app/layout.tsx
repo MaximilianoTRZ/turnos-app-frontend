@@ -1,22 +1,24 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// app/layout.tsx
+import { ReactNode } from "react";
+import SessionProvider from "@/app/(components)/ui/SessionProvider";
+import Nav from "./(components)/Nav";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+interface LayoutProps {
+  children: ReactNode;
+}
 
-export const metadata: Metadata = {
-  title: "TurnosApp by CodeInk",
-  description: "Turnos App by Code Ink Sofware Factory",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: LayoutProps) => {
   return (
-    <html lang="en" className="bg-main-gradient">
-      <body className={inter.className}>{children}</body>
+    <html lang="en">
+      <body>
+        <SessionProvider>
+          <Nav />
+          {children}
+        </SessionProvider>
+      </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
